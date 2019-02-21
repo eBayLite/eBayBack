@@ -64,7 +64,7 @@ Router.post('/vendre', (req, res) => {
 
 }); 
 
-Router.get('/enchere', (req, res) => {
+Router.get('/listventes', (req, res) => {
    
     Produit.find({}, function(err, docs){
         if (err) res.json(err);

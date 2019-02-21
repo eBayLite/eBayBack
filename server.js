@@ -22,9 +22,11 @@ mongoose
 
 const Users = require('./routes/Users');
 const Produits = require('./routes/Produits');
+const Encheres = require('./routes/Encheres');
 
 app.use('/users', Users);
 app.use('/produits', Produits);
+app.use('/encheres', Encheres);
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
