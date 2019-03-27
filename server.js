@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
+const namespace = require('express-namespace');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -28,6 +29,11 @@ app.use('/users', Users);
 app.use('/produits', Produits);
 app.use('/encheres', Encheres);
 
+//router
+require('./application/router')(app);
+
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
 });
+
+module.exports = app;
