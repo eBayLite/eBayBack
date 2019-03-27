@@ -85,7 +85,7 @@ Router.get('/listventes', (req, res) => {
     })*/
 });
 
-Router.post('/suppvente/:id', (req, res) =>{
+Router.post('/suppvente/:id?', (req, res) =>{
     const id = req.body.id;
     /*
     Produit.deleteOne({"_id": objectID(id)}, function(err,docs){
