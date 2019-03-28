@@ -11,15 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
-    "bcrypt": "3.0.0",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "express-namespace": "*",
     "jsonwebtoken": "^7.4.2",
     "jwt-decode": "^2.2.0",
     "mongodb": "^3.1.6",
     "mongoose": "^5.2.15",
-    "nodemon": "^1.18.10",
-    "express-namespace": "*"
+    "nodemon": "^1.18.10"
   }
 }

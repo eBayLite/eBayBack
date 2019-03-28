@@ -28,10 +28,10 @@ const UserSchema = new Schema({
     },
     phone:{
         type: String
-    },
+    },/*
     liste_enchere:{
-        type: [Enchere]
-    },
+        type: Enchere
+    },*/
     date:{
         type: Date,
         default: Date.now

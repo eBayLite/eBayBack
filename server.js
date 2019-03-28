@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
-const namespace = require('express-namespace');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -25,12 +24,16 @@ const Users = require('./routes/Users');
 const Produits = require('./routes/Produits');
 const Encheres = require('./routes/Encheres');
 
+
 app.use('/users', Users);
 app.use('/produits', Produits);
 app.use('/encheres', Encheres);
 
+//app.get('listench', Encheres.listench);
+
 //router
-require('./application/router')(app);
+//require('./application/router')(app);
+
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)

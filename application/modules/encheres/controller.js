@@ -5,7 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const assert = require('assert');
 
-const Enchere = require("../models/Enchere");
+const Enchere = require("/home/sparwack/Desktop/EBAY/eBayBack/models/Enchere");
 Router.use(cors());
 
 process.env.SECRET_KEY = 'secret';

@@ -1,7 +1,7 @@
-module.exports = function (app){
+/*module.exports = function (app){
     const enchere = require('./modules/encheres/controller');
-    const produit = require('./modules/produits/controller')
-    const user = require('./modules/users/controller')
+    const produit = require('./modules/produits/controller');
+    const user = require('./modules/users/controller');
 
     //user
     app.namespace('/user', function(){
@@ -16,12 +16,20 @@ module.exports = function (app){
         app.post('listventes', produit.login);
         /*app.namespace('/suppvente', function(){
             app.post('/:id?', produit.remove)
-        });*/   
+        });   
     });
 
     app.namespace('/enchere', function(){
         app.post('creer', enchere.creer);
         app.get('listench', enchere.listench);
     });
+
+}*/
+module.exports = function (app){
+
+
+const Encheres = require('../routes/Encheres');
+
+app.use('/listench', Encheres);
 
 }
