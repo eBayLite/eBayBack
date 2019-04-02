@@ -1,4 +1,5 @@
 const Produit = require("../models/Produit");
+const Joi = require('joi');
 
 exports.vendre = function(req, res){
     const today = new Date()
@@ -11,6 +12,8 @@ exports.vendre = function(req, res){
         vendeur: req.body.vendeur,
         created: today
     };
+
+    
 
     let errors = [];
 

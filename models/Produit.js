@@ -19,7 +19,16 @@ const ProduitSchema = new Schema({
     },
     vendeur:{
         type: String
+    },/*
+    count:{
+        type: Number
     },
+    total:{
+        type: Number
+    },
+    inCart:{
+        type: Boolean
+    },*/
     date:{
         type: Date,
         default: Date.now
