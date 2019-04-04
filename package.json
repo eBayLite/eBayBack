@@ -17,6 +17,7 @@
     "express": "^4.16.3",
     "express-namespace": "*",
     "joi": "^14.3.1",
+    "joigoose": "^4.0.4",
     "jsonwebtoken": "^7.4.2",
     "jwt-decode": "^2.2.0",
     "mongodb": "^3.1.6",
