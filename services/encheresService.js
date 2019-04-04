@@ -1,33 +1,26 @@
 const Enchere = require("../models/Enchere");
+const Joi = require('joi');
 
 exports.creer = function(req, res) {
-    const today = new Date()
-    const enchereData = {
-        nom: req.body.nom,
-        etat: req.body.etat,
-        prix: req.body.prix,
-        prix_ench: req.body.prix_ench,
-        vendeur: req.body.vendeur,
-        created: today
-    };
+    const schema = Joi.object().keys({
+        nom : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
+        etat : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer un état d'au moins 5 à 20 caractères")),
+        prix : Joi.number().integer().max(9999).required().error(new Error("entrez un prix valide")),
+        prix_ench: Joi.number().integer().required().error(new Error("entrez un prix d'enchère valide")),
+        vendeur: Joi.string().min(3).max(20).required().error(new Error("entrez un nom de vendeur valide"))
+    });
 
-    let errors = [];
-
-    if (!enchereData.nom || !enchereData.etat || !enchereData.prix || !enchereData.prix_ench || !enchereData.vendeur) {
-        errors.push({msg: "Remplissez tous les champs!"});
-      }
-
-    if (enchereData.etat!='neuf'|| enchereData.etat!='occasion'){
-        errors.push({msg: "l'etat du produit doit forcément être 'neuf' ou 'occasion' "});
-    }
-
-    if (enchereData.prix_ench > enchereData.prix*5 || enchereData.prix_ench < enchereData.prix){
-        errors.push({msg:"Vous ne pouvez pas sous-encherir, commee vous ne pouvez pas enchérir à 5x le prix de départ"})
-    }
-
-    else {
-        Enchere.create(enchereData).then(item => {res.send("item sauvegardé");}).catch(err => {res.status(400).send("impossible de sauvegarder l'enchère");}); 
-    }
+    Joi.validate(req.body, schema, (err, result)=>{
+         if(err){
+            console.log(err);
+            res.send(err.message);
+         }
+         else{ 
+             Enchere.create(result);
+             console.log(result);
+             res.send("Enchère ajoutée avec succès");
+         }
+    }); 
 
 }; 
 
