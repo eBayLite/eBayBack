@@ -3,22 +3,27 @@ const Schema = mongoose.Schema;
 
 const ProduitSchema = new Schema({
     nom:{
-        type: String
+        type: String,
+        required: true
     },
     categorie:{
-        type: String
+        type: String,
+        required: true
     },
     prix:{
-        type: Number
+        type: Number,
+        required: true
     },
     prix_min:{
-        type: Number
+        type: Number,
+        required: true
     },
     description:{
         type: String
     },
     vendeur:{
-        type: String
+        type: String,
+        required: true
     },/*
     count:{
         type: Number

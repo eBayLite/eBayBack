@@ -9,6 +9,7 @@ const enchere_controller = require('../controllers/encheresController');
 
 Router.post('/creer', enchere_controller.creer);
 Router.get('/listench', enchere_controller.listench);
+Router.delete('/suppench/:id', enchere_controller.suppench);
 
 Router.use(cors());
 

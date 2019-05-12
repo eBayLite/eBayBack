@@ -3,35 +3,41 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     nom:{
-        type: String
+        type: String,
+        required: true
     },
     prenom:{
-        type: String
+        type: String,
+        required: true
     },
     adresse:{
-        type: String
+        type: String,
+        required: true
     },
     ville:{
-        type: String
+        type: String,
+        required: true
     },
     code_postal:{
-        type: String
+        type: String,
+        required: true
     },
     password:{
-        type: String
+        type: String,
+        required: true
     },
     password2:{
-        type: String
+        type: String,
+        required: true
     },
     email:{
-        type: String
+        type: String,
+        required: true
     },
     phone:{
-        type: String
-    },/*
-    liste_enchere:{
-        type: Enchere
-    },*/
+        type: String,
+        required: true
+    },
     date:{
         type: Date,
         default: Date.now

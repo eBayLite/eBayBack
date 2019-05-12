@@ -7,3 +7,7 @@ exports.creer = function(req, res) {
 exports.listench = function(req, res){
     service.listench(req, res);
 }
+
+exports.suppench = function(req, res){
+    service.suppench(req, res);
+}

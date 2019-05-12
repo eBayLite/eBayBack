@@ -24,12 +24,21 @@ exports.vendre = function(req, res){
     }); 
 }; 
 
+
 exports.listventes = function(req, res){
     Produit.find({}, function(err, docs){
         if (err) res.json(err);
         else res.json({produits:docs});
     });
 };
+
+/*
+exports.listventes = function(){
+    return new Promise(Produit.find({}, function(err, docs){
+            if (err) res.json(err);
+            else res.json({produits:docs});
+        }));
+    };*/
 
 exports.suppvente = function(req, res){
     const id = req.body.id;
