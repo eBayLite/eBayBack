@@ -11,10 +11,10 @@ exports.vendre = function(req, res){
 
 
 exports.listventes = function(){
-   service.listventes().then((res)=>{console.log(res)});
+   service.listventes().then((res)=>{
+      console.log(res);
+   });
 
-
-   //service.listventes().then((res)=>{console.log(res)})
    //https://stackoverflow.com/questions/37555031/why-does-json-return-a-promise
    //https://stackoverflow.com/questions/35034506/how-to-use-promise-with-express-in-node-js
 }
