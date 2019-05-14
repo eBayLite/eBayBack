@@ -9,6 +9,6 @@ const produit_controller = require('../controllers/produitsController');
 
 Router.post('/vendre', upload.single('image'), produit_controller.vendre);
 Router.get('/listventes', produit_controller.listventes);
-Router.post('/produits/:id/delete', produit_controller.suppvente);
+Router.post('/suppvente/:id', produit_controller.suppvente);
 
 module.exports = Router;

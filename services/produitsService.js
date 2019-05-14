@@ -43,10 +43,9 @@ exports.listventes = function(){
         })});
     };
 
+
 exports.suppvente = function(req, res){
-    const id = req.body.id;
-    Produit.remove({_id: req.body.id}, function(err, docs){
-        if (err) res.json(err);
-        else res.json({produits: docs});
-    })
+    Produit.findById(req.params.id)
+        .then(item => item.remove().then(() => res.json({success: true})))
+        .catch(err => res.status(404).json({success: false}));
 };
