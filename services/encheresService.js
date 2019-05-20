@@ -1,9 +1,9 @@
 const Enchere = require("../models/Enchere");
 const Joi = require('joi');
-//const fs = require('fs');
+const jwt = require("jsonwebtoken");
 
 
-exports.creer = function(req, res) {
+exports.creer = async function(req) {
     const schema = Joi.object().keys({
         titleE : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
         priceE : Joi.number().integer().min(5).required().error(new Error("entrez un prix valide")),
@@ -14,16 +14,18 @@ exports.creer = function(req, res) {
         imgE: Joi.string()
     });
 
-    Joi.validate(req.body, schema, (err, result)=>{
+    return await Joi.validate(req.body, schema, async(err, result)=>{
          if(err){
             console.log(err);
-            res.send(err.message);
+            //res.send(err.message);
          }
          else{/*
             result.img.data = fs.readFileSync(req.files.userPhoto.path)
             result.img.contentType = 'image/png';
             result.save();*/
-             Enchere.create(result);
+
+            // __________________________________________________
+            /*
              Enchere.endDate = setInterval(function() {
 
                 /*--------------------------
@@ -34,7 +36,7 @@ exports.creer = function(req, res) {
                  // Find the distance between now and the count down date
                   var distance = countDownDate - now;
                   ---------------------------
-                  */
+                  
                 
                 var actualTime = new Date(Enchere.date);
                 var endOfDay = new Date(actualTime.getFullYear(), actualTime.getMonth(), actualTime.getDate() + 1, 0, 0, 0);
@@ -55,24 +57,57 @@ exports.creer = function(req, res) {
                   const timer = hours + "h "+ minutes + "m " + seconds + "s ";
                   return timer;
                 }, 1000);
+                console.log(Enchere.endDate); */
+                //____________________________________________________
 
-             console.log(result);
-             console.log(Enchere.endDate);
-             res.send("Enchère ajoutée avec succès");
+             //console.log(result);
+             //res.send("Enchère ajoutée avec succès");
+             return await Enchere.create(req.body);
          }
     }); 
 }; 
 
-exports.listench = function(req, res){
+/*exports.listench = function(req, res){
     Enchere.find({}, function(err, docs){
         if (err) res.json(err);
         else res.json({encheres:docs});
     });
-}
+}*/
 
-exports.suppench = function(req, res){
+exports.listench = function(){
+    return new Promise((resolve, reject) => {
+        Enchere.find({}, function(err, docs){
+            if (err) reject(err);
+            else {
+                resolve({encheres:docs});
+            }
+        })});
+    };
+
+/*exports.suppench = function(req, res){
     Enchere.findById(req.params.id)
         .then(item => item.remove().then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}));
-}
+}*/
 
+
+/*exports.suppench = function(req){
+    return new Promise((resolve, reject)=>{
+        Enchere.findById(req.params.id, function(err, docs){
+            if (err) reject(err);
+            else resolve(docs.remove());
+        });
+    });
+}*/
+
+
+exports.suppench = async function(req){
+    Enchere.findById(req.params.id, async function(err, docs){
+        if (err) console.log(err);
+        else await req.body.remove();
+    });
+    /*
+    return await Enchere.findById(req.params.id)
+        .then(item => item.remove())
+        .catch(err => console.log(err));*/
+}

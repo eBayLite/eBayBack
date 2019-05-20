@@ -1,7 +1,7 @@
 const Produit = require("../models/Produit");
 const Joi = require('joi');
 
-exports.vendre = function(req, res){
+exports.vendre = async function (req){
     const schema = Joi.object().keys({
         nom : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
         categorie : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer une catégorie d'au moins 5 à 20 caractères")),
@@ -10,20 +10,24 @@ exports.vendre = function(req, res){
         description: Joi.string().min(5).max(50).error(new Error("veuillez entrer une description allant de 5 à 50 caractères")),
         vendeur: Joi.string().min(3).max(20).required().error(new Error("entrez un nom de vendeur valide"))
     });
-
-    Joi.validate(req.body, schema, (err, result)=>{
+   
+    return await Joi.validate(req.body, schema, async(err, result)=>{
          if(err){
             console.log(err);
-            res.send(err.message);
+            //res.send(err.message);
+            //reject(err);
          }
-         else{ 
-             Produit.create(result);
-             console.log(result);
-             res.send("Produit ajouté avec succès");
+         else{
+              
+             return await Produit.create(req.body);
+             //resolve(JSON.parse(JSON.stringify(pr)));
+             //console.log(result);
+             //res.send("Produit ajouté avec succès");
          }
-    }); 
+    })
 }; 
 
+//return await Produit.create(req.body);
 
 /*exports.listventes = function(req, res){
     Produit.find({}, function(err, docs){
