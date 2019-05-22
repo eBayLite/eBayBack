@@ -1,16 +1,15 @@
 const service = require("../services/encheresService");
 
 
-exports.creer = function(req) {
-   service.creer(req).then((res)=>{
-    console.log(res)
+exports.creer = function(req, res) {
+   service.creer(req).then(ench=>{
+    console.log(res);
+    res.send(ench)
    });
 }; 
 
-exports.listench = function(req){
-    service.listench(req).then((res)=>{
-        console.log(res)
-    });
+exports.listench = function(req, res){
+    service.listench(req).then(result =>{res.send(result); console.log(result)});
 }
 
 /*
@@ -18,8 +17,6 @@ exports.suppench = function(req, res){
     service.suppench(req, res);
 }*/
 
-exports.suppench = function(req){
-    service.suppench(req).then((res)=>{
-        console.log(res)
-    });
+exports.suppench = async function(req, res){
+     await service.suppench(req).then(del => {console.log(res)});
 }

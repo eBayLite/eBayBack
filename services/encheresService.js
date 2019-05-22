@@ -62,8 +62,13 @@ exports.creer = async function(req) {
 
              //console.log(result);
              //res.send("Enchère ajoutée avec succès");
-             return await Enchere.create(req.body);
+             //return await Enchere.create(req.body);
+             console.log(result);
+             return Enchere.create(req.body).then(ench =>{
+               return ench
+             });
          }
+
     }); 
 }; 
 
@@ -74,7 +79,7 @@ exports.creer = async function(req) {
     });
 }*/
 
-exports.listench = function(){
+/*exports.listench = function(){
     return new Promise((resolve, reject) => {
         Enchere.find({}, function(err, docs){
             if (err) reject(err);
@@ -82,7 +87,17 @@ exports.listench = function(){
                 resolve({encheres:docs});
             }
         })});
-    };
+    };*/
+
+    exports.listench = function(){
+       return Enchere.find({}, function(err, docs){
+            if (err) { console.log(err); }
+            else if (docs!== undefined && docs!==null) {
+                return docs;
+            }
+            else return null
+        });
+    }
 
 /*exports.suppench = function(req, res){
     Enchere.findById(req.params.id)
@@ -103,11 +118,10 @@ exports.listench = function(){
 
 exports.suppench = async function(req){
     Enchere.findById(req.params.id, async function(err, docs){
-        if (err) console.log(err);
-        else await req.body.remove();
+        console.log(docs); //todo remove after
+        if(err) { console.log(err) }
+        else if(docs!== undefined && docs!==null) {
+            return docs.remove()
+        }
     });
-    /*
-    return await Enchere.findById(req.params.id)
-        .then(item => item.remove())
-        .catch(err => console.log(err));*/
 }

@@ -14,12 +14,13 @@ exports.vendre = async function (req){
     return await Joi.validate(req.body, schema, async(err, result)=>{
          if(err){
             console.log(err);
-            //res.send(err.message);
-            //reject(err);
          }
          else{
+             console.log(result);
               
-             return await Produit.create(req.body);
+             return Produit.create(req.body).then(prod => {
+                 return prod
+             });
              //resolve(JSON.parse(JSON.stringify(pr)));
              //console.log(result);
              //res.send("Produit ajouté avec succès");
@@ -37,7 +38,7 @@ exports.vendre = async function (req){
 };*/
 
 
-exports.listventes = function(){
+/*exports.listventes = function(){
     return new Promise((resolve, reject) => {
         Produit.find({}, function(err, docs){
             if (err) reject(err);
@@ -45,11 +46,32 @@ exports.listventes = function(){
                 resolve({produits:docs});
             }
         })});
-    };
+};*/
 
 
-exports.suppvente = function(req, res){
+    exports.listventes = function(){
+        return Produit.find({}, function(err, docs){
+             if (err) { console.log(err); }
+             else if (docs!== undefined && docs!==null) {
+                 return docs;
+             }
+             else return null
+         });
+     }
+
+
+/*exports.suppvente = function(req, res){
     Produit.findById(req.params.id)
         .then(item => item.remove().then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}));
-};
+};*/
+
+exports.suppvente = async function(req){
+    Produit.findById(req.params.id, async function(err, docs){
+        console.log(docs); //todo remove after
+        if(err) { console.log(err) }
+        else if(docs!== undefined && docs!==null) {
+            return docs.remove();
+        }
+    });
+}
