@@ -11,5 +11,6 @@ process.env.SECRET_KEY = 'secret';
 Router.post('/login', user_controller.login);
 Router.post('/register', user_controller.register);
 Router.get('/profile', user_controller.profile);
+Router.delete('/deluser/:id', user_controller.delUser);
 
 module.exports = Router;

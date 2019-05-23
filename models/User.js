@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Enchere = require('./Enchere')
 
 const UserSchema = new Schema({
     nom:{
@@ -41,6 +42,10 @@ const UserSchema = new Schema({
     date:{
         type: Date,
         default: Date.now
+    },
+    enchE:{
+        type: Object,
+        default: Enchere
     }
 });
 

@@ -16,19 +16,34 @@ exports.vendre = async function (req){
             console.log(err);
          }
          else{
-             console.log(result);
-              
+             //console.log(result);
              return Produit.create(req.body).then(prod => {
                  return prod
              });
-             //resolve(JSON.parse(JSON.stringify(pr)));
-             //console.log(result);
-             //res.send("Produit ajouté avec succès");
          }
     })
 }; 
 
-//return await Produit.create(req.body);
+
+exports.listventes = function(){
+    return Produit.find({}, function(err, docs){
+        if (err) { console.log(err); }
+        else if (docs!== undefined && docs!==null) {
+            return docs;
+        }
+        else return null
+    });
+}
+
+exports.suppvente = async function(req){
+    Produit.findById(req.params.id, async function(err, docs){
+        console.log(docs); //todo remove after
+        if(err) { console.log(err) }
+        else if(docs!== undefined && docs!==null) {
+            return docs.remove();
+        }
+    });
+}
 
 /*exports.listventes = function(req, res){
     Produit.find({}, function(err, docs){
@@ -49,29 +64,8 @@ exports.vendre = async function (req){
 };*/
 
 
-    exports.listventes = function(){
-        return Produit.find({}, function(err, docs){
-             if (err) { console.log(err); }
-             else if (docs!== undefined && docs!==null) {
-                 return docs;
-             }
-             else return null
-         });
-     }
-
-
 /*exports.suppvente = function(req, res){
     Produit.findById(req.params.id)
         .then(item => item.remove().then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}));
 };*/
-
-exports.suppvente = async function(req){
-    Produit.findById(req.params.id, async function(err, docs){
-        console.log(docs); //todo remove after
-        if(err) { console.log(err) }
-        else if(docs!== undefined && docs!==null) {
-            return docs.remove();
-        }
-    });
-}
