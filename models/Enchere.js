@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema; 
+const Schema = mongoose.Schema;
 
 const EnchereSchema = new Schema({
     titleE:{
@@ -52,6 +52,9 @@ const EnchereSchema = new Schema({
     },
     disponible:{
         type: Boolean
+    },
+    userID:{
+        type: String
     }
 });
 

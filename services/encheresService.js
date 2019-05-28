@@ -24,6 +24,8 @@ exports.creer = async function(req) {
          }
          else{
              return Enchere.create(req.body).then(ench =>{
+                 //ench.userID = req.User._id;
+                 //console.log(ench.userID)
                return ench
              });
          }
