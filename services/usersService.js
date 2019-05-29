@@ -55,13 +55,12 @@ exports.login = function(req, res){
                         prenom: user.prenom,
                         ville: user.ville,
                         code_postal: user.code_postal,
-                        password: user.password,
-                        password2: user.password2,
                         email: user.email,
-                        phone: user.phone
+                        phone: user.phone,
+                        encheres: user.encheres
                     }
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                        expiresIn: 1440
+                        expiresIn: 3600
                     });
                      return token
                 } else {

@@ -3,6 +3,20 @@ const Joi = require('joi');
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+function getCurrentUser(req) {
+    if (req.headers && req.headers.authorization) {
+        var authorization = req.headers.authorization;
+        var user = null
+        try {
+            user = jwt.verify(authorization.split(' ')[1], process.env.SECRET_KEY);
+        } catch (e) {
+            console.log(e)
+        }
+        return user
+    }
+    return null
+}
+
 
 exports.creer = async function(req) {
     const schema = Joi.object().keys({
@@ -16,23 +30,60 @@ exports.creer = async function(req) {
         stateE: Joi.string().valid('Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné').error(new Error("L'article peut uniquement avoir ces valeurs: 'Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné'"))
     });
 
-    //var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY);
-
     return await Joi.validate(req.body, schema, async(err)=>{
          if(err){
             console.log(err);
          }
-         else{
-             return Enchere.create(req.body).then(ench =>{
-                 //ench.userID = req.User._id;
-                 //console.log(ench.userID)
-               return ench
-             });
+         else{ 
+            const user = getCurrentUser(req)
+            if(user !== null){
+                var newEnch = req.body;
+                var ench = new Enchere ({
+                    _id : newEnch._id,
+                    titleE: newEnch.titleE,
+                    imgE: newEnch.imgE,
+                    priceE: newEnch.priceE,
+                    incE: newEnch.incE,
+                    companyE: newEnch.companyE,
+                    infoE: newEnch.infoE,
+                    inPanE : newEnch.inPanE,
+                    imgE :  newEnch.imgE,
+                    stateE : newEnch.stateE
+                  });
+                return User.findById(user._id).populate('encheres').then(u => {
+                    u.encheres.push(ench)
+                    console.log(u);
+                    console.log('plop 11-----------')
+                    console.log(u.encheres);
+                    u.save().then(res=> {
+                        console.log('plop______');
+                        //console.log(res);
+                        return Enchere.create(ench).then(e =>{
+                            return e
+                        });
+                    }).catch(e => {
+                        console.log(e)
+                    })
+                })
+                /*return Enchere.create(newEnch).then(ench =>{
+                    //ench.userID = req.User._id;
+                    //console.log(ench.userID)
+                  return ench
+                });*/
+            } 
          }
-
     }); 
 }; 
-
+    exports.enchByUser = function(){
+        const user = new User;
+        return User.findById(user._id, function(err, docs){
+            if (err) { console.log(err); }
+            else if (user.encheres) {
+                return docs;
+            }
+            else return null
+        })
+    }
 
     exports.listench = function(){
        return Enchere.find({}, function(err, docs){

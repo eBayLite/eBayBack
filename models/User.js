@@ -43,10 +43,7 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    enchE:{
-        type: Object,
-        default: Enchere
-    }
+    encheres: [{ type: Schema.Types.ObjectId, ref: 'Enchere' }]
 });
 
-module.exports = User = mongoose.model('users', UserSchema);
+module.exports = User = mongoose.model('User', UserSchema);

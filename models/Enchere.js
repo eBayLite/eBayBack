@@ -53,10 +53,8 @@ const EnchereSchema = new Schema({
     disponible:{
         type: Boolean
     },
-    userID:{
-        type: String
-    }
+    _user: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
 
-module.exports = Enchere = mongoose.model('encheres', EnchereSchema);
+module.exports = Enchere = mongoose.model('Enchere', EnchereSchema);
