@@ -44,7 +44,7 @@ const EnchereSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    endDate:{
+    dateFin:{
         type: String
     },
     offre:{
@@ -57,4 +57,4 @@ const EnchereSchema = new Schema({
 });
 
 
-module.exports = Enchere = mongoose.model('Enchere', EnchereSchema);
+module.exports = mongoose.model('Enchere', EnchereSchema);

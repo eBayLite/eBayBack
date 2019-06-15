@@ -27,7 +27,10 @@ exports.creer = async function(req) {
         infoE: Joi.string().min(3).max(160).error(new Error("veuillez entrer un état d'au moins 5 à 160 caractères")),
         inPanE: Joi.boolean(),
         imgE: Joi.string(),
-        stateE: Joi.string().valid('Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné').error(new Error("L'article peut uniquement avoir ces valeurs: 'Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné'"))
+        stateE: Joi.string().valid('Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné').error(new Error("L'article peut uniquement avoir ces valeurs: 'Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné'")),
+        dateFin: Joi.date(),
+        offre: Joi.number(),
+        disponible: Joi.boolean()
     });
 
     return await Joi.validate(req.body, schema, async(err)=>{
@@ -103,6 +106,10 @@ exports.suppench = async function(req){
             return docs.remove()
         }
     });
+}
+
+exports.encherir = function(req){
+    
 }
 
 

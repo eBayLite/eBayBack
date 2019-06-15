@@ -15,6 +15,7 @@ exports.register = async function(req, res){
         password2: Joi.any().valid(Joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } }),
         email : Joi.array().items(Joi.string().email().max(256).required()).single().required().error(new Error("veuillez entrer un email valide")),
         phone : Joi.string().min(10).max(10).required().error(new Error("veuillez entrer un numéro de téléphone valide")),
+        admin : Joi.boolean().error(new Error("cette valeur est sois 'faux' ou 'vraie'")),
         created : today
     });
     
