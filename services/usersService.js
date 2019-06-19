@@ -58,7 +58,8 @@ exports.login = function(req, res){
                         code_postal: user.code_postal,
                         email: user.email,
                         phone: user.phone,
-                        encheres: user.encheres
+                        encheres: user.encheres,
+                        admin: user.admin
                     }
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
                         expiresIn: 3600

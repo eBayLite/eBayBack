@@ -3,7 +3,7 @@ const Joi = require('joi');
 
 exports.vendre = async function (req){
     const schema = Joi.object().keys({
-        nom : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
+        nom : Joi.string().min(3).max(30).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
         categorie : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer une catégorie d'au moins 5 à 20 caractères")),
         prix : Joi.number().integer().max(9999).required().error(new Error("entrez un prix valide")),
         prix_min: Joi.number().integer().required().error(new Error("entrez un prix minimum valide")),

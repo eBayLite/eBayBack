@@ -3,7 +3,7 @@ const Router = express.Router();
 const cors = require("cors");
 Router.use(cors());
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+const upload = multer({dest: 'uploads/'}); 
 
 const produit_controller = require('../controllers/produitsController');
 
