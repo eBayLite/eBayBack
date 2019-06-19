@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer({dest: 'uploads/'}); 
 
 const produit_controller = require('../controllers/produitsController');
+const verifyTok = require('../tokenB');
 
 Router.post('/vendre', upload.single('image'), produit_controller.vendre);
 Router.get('/listventes', produit_controller.listventes);

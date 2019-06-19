@@ -13,9 +13,11 @@ const verifyTok = require('../tokenB');
 //fonction qui protègera nos routes
 
 Router.post('/creer', verifyTok.verifierToken, enchere_controller.creer);
-Router.get('/listench', verifyTok.verifierToken, enchere_controller.listench);
-Router.get('/enchbyuser', enchere_controller.enchByUser);
+Router.get('/listench', enchere_controller.listench);
+Router.get('/enchbyuser', verifyTok.verifierToken, enchere_controller.enchByUser);
 Router.delete('/suppench/:id', verifyTok.verifierToken, enchere_controller.suppench);
+Router.get('/enchbyid/:id', verifyTok.verifierToken, enchere_controller.enchereID);
+Router.post('/update/:id', verifyTok.verifierToken, enchere_controller.update);
 
 Router.use(cors());
 

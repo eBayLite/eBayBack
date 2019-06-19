@@ -21,16 +21,15 @@ function getCurrentUser(req) {
 exports.creer = async function(req) {
     const schema = Joi.object().keys({
         titleE : Joi.string().min(3).max(20).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
-        priceE : Joi.number().integer().min(5).required().error(new Error("entrez un prix valide")),
-        incE : Joi.number().integer().max(9999).required().error(new Error("entrez un prix valide")),
+        priceE : Joi.number().integer().min(0).required().error(new Error("entrez un prix valide")),
+        incE : Joi.number().integer().min(1).required().error(new Error("entrez un prix valide")),
         companyE: Joi.string().min(10).max(10).required().error(new Error("entrez un numero de telephone valide")),
-        infoE: Joi.string().min(3).max(160).error(new Error("veuillez entrer un état d'au moins 5 à 160 caractères")),
+        infoE: Joi.string().min(3).max(4000).error(new Error("veuillez entrer un état d'au moins 5 à 160 caractères")),
         inPanE: Joi.boolean(),
         imgE: Joi.string(),
-        stateE: Joi.string().valid('Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné').error(new Error("L'article peut uniquement avoir ces valeurs: 'Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné'")),
-        dateFin: Joi.date(),
-        offre: Joi.number(),
-        disponible: Joi.boolean()
+        //stateE: Joi.string().valid('Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné').error(new Error("L'article peut uniquement avoir ces valeurs: 'Neuf', 'Occasion', 'Bon état', 'Très bon état', 'Reconditionné'")),
+        dateFin: Joi.date().required(),
+        offre: Joi.number()
     });
 
     return await Joi.validate(req.body, schema, async(err)=>{
@@ -41,6 +40,12 @@ exports.creer = async function(req) {
             const user = getCurrentUser(req)
             if(user !== null){
                 var newEnch = req.body;
+
+                var c = newEnch.imgE;
+                var o = c.substring(12);
+                var d = "imgE/"+o;
+                
+
                 var ench = new Enchere ({
                     _id : newEnch._id,
                     titleE: newEnch.titleE,
@@ -50,8 +55,9 @@ exports.creer = async function(req) {
                     companyE: newEnch.companyE,
                     infoE: newEnch.infoE,
                     inPanE : newEnch.inPanE,
-                    imgE :  newEnch.imgE,
-                    stateE : newEnch.stateE
+                    imgE :  d,
+                    dateFin: newEnch.dateFin,
+                    offre: newEnch.priceE
                   });
                 return User.findById(user._id).populate('encheres').then(u => {
                     u.encheres.push(ench)
@@ -108,9 +114,49 @@ exports.suppench = async function(req){
     });
 }
 
-exports.encherir = function(req){
+    exports.enchereID = async function(req){
+        return Enchere.findById(req.params.id, async function(err, docs){
+            if(err){ console.log(err) }
+            else if(docs!== undefined && docs!==null) {
+                console.log(docs);
+                return docs
+            }
+            else return null     
+        });
+    }
+
+    exports.update = async function(req){
+        return Enchere.findById(req.params.id, async function(err, docs){
     
-}
+            if(err){ console.log(err);}
+    
+            else if(docs!== undefined && docs!==null) { 
+                docs.titleE = req.body.titleE;
+                docs.imgE = req.body.imgE;
+                docs.priceE = req.body.priceE;
+                docs.incE = req.body.incE;
+                docs.companyE = req.body.companyE;
+                docs.infoE = req.body.infoE;
+                docs.dateFin = req.body.dateFin;
+    
+               if ( req.body.offre >=  docs.offre + docs.incE){
+                docs.offre = req.body.offre;
+               }
+               docs.save().then(e =>{
+                console.log('plop______');
+                        //console.log(res);
+                        return Enchere.create(docs).then(e =>{
+                            return e
+                        });
+            })
+            .catch(e =>{
+                e.status(400).send("update not possible");
+            });
+            
+            }
+            return null
+        });
+    }
 
 
 /*exports.listench = function(req, res){

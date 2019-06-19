@@ -30,6 +30,7 @@ exports.register = async function(req, res){
                 if (!user) {
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
                         req.body.password = hash;
+                        req.body.admin = false;
                         console.log(result); //to be removed
                         return User.create(req.body).then(util => {
                             return util });

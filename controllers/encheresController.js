@@ -15,14 +15,7 @@ exports.creer = function(req, res) {
 }; 
 
 exports.listench = function(req, res){
-    jwt.verify(req.token, process.env.SECRET_KEY, (err) => {
-        if (err){
-            res.sendStatus(403);
-        }
-        else{
     service.listench(req).then(result =>{res.send(result); console.log(result)});
-    }
-  });
 }
 
 exports.suppench = async function(req, res){
@@ -38,7 +31,21 @@ exports.suppench = async function(req, res){
  
 exports.enchByUser = function(req, res) {
     service.enchByUser(req).then(result =>{res.send(result); console.log(result)});
- }; 
+ };
+
+
+exports.enchereID = async function(req, res){
+     await service.enchereID(req).then(ench => {
+        res.send(ench);
+    })
+}
+
+exports.update = async function(req, res){
+    await service.update(req).then(ench => {
+        res.send(ench);
+    })
+}
+
 /*
 exports.suppench = function(req, res){
     service.suppench(req, res);

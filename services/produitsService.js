@@ -3,12 +3,16 @@ const Joi = require('joi');
 
 exports.vendre = async function (req){
     const schema = Joi.object().keys({
-        nom : Joi.string().min(3).max(30).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
-        categorie : Joi.string().min(5).max(20).required().error(new Error("veuillez entrer une catégorie d'au moins 5 à 20 caractères")),
-        prix : Joi.number().integer().max(9999).required().error(new Error("entrez un prix valide")),
-        prix_min: Joi.number().integer().required().error(new Error("entrez un prix minimum valide")),
-        description: Joi.string().min(5).max(50).error(new Error("veuillez entrer une description allant de 5 à 50 caractères")),
-        vendeur: Joi.string().min(3).max(20).required().error(new Error("entrez un nom de vendeur valide"))
+        title : Joi.string().min(3).max(30).required().error(new Error("veuillez entrer un nom d'au moins 5 à 20 caractères")),
+        price : Joi.number().integer().min(0).required().error(new Error("entrez un prix valide")),
+        info: Joi.string().min(5).max(4000).error(new Error("veuillez entrer une description allant de 5 à 50 caractères")),
+        company: Joi.string().min(10).max(10).required().error(new Error("entrez un nom de vendeur valide")),
+        img : Joi.string(),
+        inCart : Joi.boolean(),
+        inPan : Joi.boolean(),
+        inc : Joi.number().integer(),
+        count : Joi.number().min(0),
+        total : Joi.number().min(0)
     });
    
     return await Joi.validate(req.body, schema, async(err, result)=>{
@@ -16,8 +20,13 @@ exports.vendre = async function (req){
             console.log(err);
          }
          else{
+            let prod = new Produit(req.body);
+            var c = prod.img;
+                  var o = c.substring(12);
+                  var d = "imgV/"+o;
+                  prod.img = d;
              //console.log(result);
-             return Produit.create(req.body).then(prod => {
+             return Produit.create(prod).then(prod => {
                  return prod
              });
          }
